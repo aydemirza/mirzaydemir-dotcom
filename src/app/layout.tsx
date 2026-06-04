@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Newsreader } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
-import { EditionSwitcher } from "@/components/EditionSwitcher";
 
 const newsreader = Newsreader({
   subsets: ["latin"],
@@ -40,19 +38,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-scheme="salmon" suppressHydrationWarning>
-      <head>
-        <Script
-          id="edition-restore"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `try{var s=localStorage.getItem("bs-scheme");if(s)document.documentElement.dataset.scheme=s}catch(e){}`,
-          }}
-        />
-      </head>
+    <html lang="en">
+      <head />
       <body className={`${newsreader.variable} antialiased`} style={{ fontFamily: "var(--font-newsreader), Georgia, 'Times New Roman', serif" }}>
         {children}
-        <EditionSwitcher />
       </body>
     </html>
   );

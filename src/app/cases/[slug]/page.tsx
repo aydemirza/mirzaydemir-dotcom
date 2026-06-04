@@ -39,7 +39,7 @@ export default async function CasePage({
               <h1 className="article-title">{caseStudy.title}</h1>
             </Reveal>
             <p className="byline">
-              A case from <b>{caseStudy.org || "Selected Works"}</b>
+              A case from <b>{caseStudy.org || "Projects"}</b>
             </p>
             <p className="article-dek">{caseStudy.excerpt}</p>
           </div>
@@ -84,7 +84,7 @@ export default async function CasePage({
             <>
               <hr className="rule-hair" style={{ margin: "30px 0 22px" }} />
               <div className="section-bar">
-                <h2 style={{ fontSize: 22 }}>More from Selected Works</h2>
+                <h2 style={{ fontSize: 22 }}>More from Projects</h2>
               </div>
               <div className="case-teasers">
                 {others.map((o) => (

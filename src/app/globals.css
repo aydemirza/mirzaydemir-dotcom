@@ -3,47 +3,15 @@
 /* ===== The Aydemir Review — broadsheet design system ===== */
 
 :root {
-  --paper: oklch(0.948 0.020 52);
-  --paper-2: oklch(0.935 0.024 52);
-  --ink: oklch(0.205 0.012 50);
-  --muted: oklch(0.45 0.012 50);
-  --rule: oklch(0.28 0.012 50);
-  --hair: oklch(0.80 0.020 50);
-  --accent: oklch(0.44 0.135 28);
+  --paper: oklch(0.966 0.012 90);
+  --paper-2: oklch(0.951 0.014 90);
+  --ink: oklch(0.185 0.008 60);
+  --muted: oklch(0.44 0.008 60);
+  --rule: oklch(0.26 0.009 60);
+  --hair: oklch(0.835 0.012 85);
+  --accent: oklch(0.42 0.14 25);
   --maxw: 1200px;
   --pad: clamp(1.5rem, 4vw, 3rem);
-}
-
-/* ===== colour editions ===== */
-:root[data-scheme="ivory"] {
-  --paper: oklch(0.966 0.012 90); --paper-2: oklch(0.951 0.014 90);
-  --ink: oklch(0.185 0.008 60); --muted: oklch(0.44 0.008 60);
-  --rule: oklch(0.26 0.009 60); --hair: oklch(0.835 0.012 85);
-  --accent: oklch(0.42 0.14 25);
-}
-:root[data-scheme="slate"] {
-  --paper: oklch(0.955 0.004 240); --paper-2: oklch(0.936 0.005 240);
-  --ink: oklch(0.205 0.012 255); --muted: oklch(0.46 0.010 255);
-  --rule: oklch(0.30 0.012 255); --hair: oklch(0.865 0.006 250);
-  --accent: oklch(0.45 0.10 250);
-}
-:root[data-scheme="sage"] {
-  --paper: oklch(0.957 0.014 132); --paper-2: oklch(0.938 0.016 132);
-  --ink: oklch(0.215 0.012 150); --muted: oklch(0.45 0.012 150);
-  --rule: oklch(0.30 0.013 150); --hair: oklch(0.845 0.014 135);
-  --accent: oklch(0.45 0.09 152);
-}
-:root[data-scheme="manila"] {
-  --paper: oklch(0.918 0.030 76); --paper-2: oklch(0.903 0.034 76);
-  --ink: oklch(0.255 0.020 50); --muted: oklch(0.46 0.020 55);
-  --rule: oklch(0.34 0.022 50); --hair: oklch(0.795 0.030 70);
-  --accent: oklch(0.50 0.13 45);
-}
-:root[data-scheme="midnight"] {
-  --paper: oklch(0.255 0.018 265); --paper-2: oklch(0.295 0.020 265);
-  --ink: oklch(0.93 0.012 80); --muted: oklch(0.72 0.014 80);
-  --rule: oklch(0.62 0.016 80); --hair: oklch(0.40 0.018 265);
-  --accent: oklch(0.74 0.13 70);
 }
 
 /* ===== base ===== */
@@ -265,32 +233,6 @@ a { color: inherit; }
 .paperfoot .pf-top { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; align-items: center; font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); }
 .paperfoot .pf-quote { text-align: center; font-style: italic; font-size: clamp(16px, 2vw, 21px); margin: 16px auto 0; max-width: 34ch; }
 
-/* ===== EDITION SWITCHER ===== */
-.edition-switch {
-  position: fixed; right: 18px; bottom: 18px; z-index: 60;
-  display: flex; align-items: center; gap: 11px;
-  background: color-mix(in oklch, var(--paper) 90%, transparent);
-  backdrop-filter: blur(8px);
-  border: 1px solid var(--hair); padding: 9px 13px;
-  box-shadow: 0 6px 22px oklch(0.2 0.02 60 / 0.10);
-}
-.edition-switch .es-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.16em; color: var(--muted); }
-.edition-swatches { display: flex; gap: 8px; }
-.es-dot {
-  width: 20px; height: 20px; border-radius: 50%; cursor: pointer; padding: 0;
-  border: 1px solid oklch(0.2 0.02 60 / 0.25); position: relative;
-  display: flex; align-items: center; justify-content: center; transition: transform .15s;
-}
-.es-dot:hover { transform: scale(1.14); }
-.es-dot::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--es-accent); }
-.es-dot[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--paper), 0 0 0 3.5px var(--ink); }
-.es-dot .es-name {
-  position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%);
-  font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--paper); background: var(--ink); padding: 3px 7px; white-space: nowrap;
-  opacity: 0; pointer-events: none; transition: opacity .15s;
-}
-.es-dot:hover .es-name { opacity: 1; }
 
 /* ===== responsive ===== */
 @media (max-width: 880px) {
@@ -309,7 +251,6 @@ a { color: inherit; }
 @media (max-width: 560px) {
   .masthead-top .mt-l, .masthead-top .mt-r { display: none; }
 }
-@media print { .edition-switch { display: none; } }
 @media (prefers-reduced-motion: reduce) {
   .sk-fill { transition: none; }
 }

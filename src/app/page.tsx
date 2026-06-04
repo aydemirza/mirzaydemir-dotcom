@@ -92,10 +92,10 @@ export default function Home() {
       <Masthead />
 
       <main>
-        {/* Selected Works */}
+        {/* Projects */}
         <section className="sheet fold" id="cases">
           <div className="section-bar">
-            <h2>Selected Works</h2>
+            <h2>Projects</h2>
             <span className="sb-note">Cases &amp; models</span>
           </div>
           {/* Row 1 */}
