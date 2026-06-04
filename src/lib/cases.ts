@@ -11,6 +11,8 @@ export type Case = {
     tags: string[];
     excerpt: string;
     finding?: string;
+    org?: string;
+    kicker?: string;
     content: string;
 };
 
@@ -27,6 +29,8 @@ export function getCaseBySlug(slug: string): Case | null {
             tags: data.tags || [],
             excerpt: data.excerpt,
             finding: data.finding,
+            org: data.org,
+            kicker: data.kicker,
             content,
         };
     } catch {
@@ -49,6 +53,8 @@ export function getAllCases(): Case[] {
             tags: data.tags || [],
             excerpt: data.excerpt,
             finding: data.finding,
+            org: data.org,
+            kicker: data.kicker,
             content,
         };
     });

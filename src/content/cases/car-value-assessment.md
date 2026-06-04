@@ -1,9 +1,11 @@
 ---
-title: "Car Value Assessment Model (Fisor)"
+title: "Car Value Assessment Model"
 year: "2024"
+org: "Fisor"
+kicker: "Financial Modeling"
 tags: ["Financial Modeling", "Consumer Decisions"]
 excerpt: "A decision model designed to answer: 'Which car is the better financial decision over time?' It compares present value by modeling depreciation, maintenance, insurance costs, and inflation-discounted cash flows."
-finding: "Built a robust methodology to quantify long-term ownership costs beyond simple sticker price comparisons."
+finding: "Built a robust methodology to quantify long-term ownership costs beyond simple sticker-price comparisons."
 ---
 
 ## The Challenge

@@ -1,6 +1,8 @@
 ---
 title: "Wealth Management Solutions for Gen Z"
 year: "2023"
+org: "RBC Career Fit Program"
+kicker: "Strategy"
 tags: ["Strategy", "Research"]
 excerpt: "Strategy project for the RBC Career Fit Program focused on Gen Z wealth management. Our team placed first out of four, selected to present directly to the RBC InvestEase team."
 finding: "Identified key behavioral drivers in Gen Z investment adoption and proposed specific product features to bridge the engagement gap."

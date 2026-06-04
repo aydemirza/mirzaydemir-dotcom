@@ -1,88 +1,119 @@
 import { getCaseBySlug, getAllCases } from "@/lib/cases";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
-import Navbar from "@/components/Navbar";
-import FadeIn from "@/components/FadeIn";
+import { Masthead } from "@/components/Masthead";
+import { Footer } from "@/components/Footer";
+import Reveal from "@/components/FadeIn";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 
 export async function generateStaticParams() {
-    const cases = getAllCases();
-    return cases.map((c) => ({
-        slug: c.slug,
-    }));
+  const cases = getAllCases();
+  return cases.map((c) => ({ slug: c.slug }));
 }
 
-export default async function CasePage({ params }: { params: Promise<{ slug: string }> }) {
-    const { slug } = await params;
-    const caseStudy = getCaseBySlug(slug);
+export default async function CasePage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const caseStudy = getCaseBySlug(slug);
 
-    if (!caseStudy) {
-        notFound();
-    }
+  if (!caseStudy) {
+    notFound();
+  }
 
-    return (
-        <div className="min-h-screen p-8 sm:p-20 font-serif pt-32 sm:pt-40">
-            <Navbar />
+  const others = getAllCases().filter((c) => c.slug !== slug);
 
-            <main className="max-w-3xl mx-auto space-y-16">
-                <FadeIn delay={0.1}>
-                    <div className="mb-8">
-                        <Link href="/cases" className="text-sm uppercase tracking-widest text-neutral-500 hover:text-black transition-colors inline-flex items-center gap-2">
-                            <ArrowLeft className="w-4 h-4" /> Back to Cases
-                        </Link>
-                    </div>
-                </FadeIn>
+  return (
+    <>
+      <Masthead />
 
-                <FadeIn delay={0.2}>
-                    <div className="space-y-6 border-b border-neutral-400/30 pb-12">
-                        <div className="flex items-center gap-4 text-sm text-neutral-500">
-                            {caseStudy.tags.map((tag, i) => (
-                                <span key={tag}>
-                                    {tag}
-                                    {i < caseStudy.tags.length - 1 && <span className="mx-2">•</span>}
-                                </span>
-                            ))}
-                            <span className="w-8 h-[1px] bg-neutral-400"></span>
-                            <span>{caseStudy.year}</span>
-                        </div>
-                        <h1 className="text-4xl md:text-5xl font-medium leading-tight">
-                            {caseStudy.title}
-                        </h1>
-                        <p className="text-xl text-neutral-600 leading-relaxed">
-                            {caseStudy.excerpt}
-                        </p>
-                    </div>
-                </FadeIn>
+      <main>
+        <article className="sheet">
+          <div className="article-head">
+            <span className="kicker">
+              {caseStudy.kicker || caseStudy.tags[0]} · {caseStudy.year}
+            </span>
+            <Reveal>
+              <h1 className="article-title">{caseStudy.title}</h1>
+            </Reveal>
+            <p className="byline">
+              A case from <b>{caseStudy.org || "Selected Works"}</b>
+            </p>
+            <p className="article-dek">{caseStudy.excerpt}</p>
+          </div>
 
-                <div className="space-y-12 text-lg leading-relaxed text-neutral-800 markdown-content">
-                    <FadeIn delay={0.3}>
-                        <ReactMarkdown
-                            components={{
-                                h2: ({ node, ...props }) => <h2 className="text-2xl font-medium mb-4 mt-12 first:mt-0" {...props} />,
-                                p: ({ node, ...props }) => <p className="mb-6" {...props} />,
-                                ul: ({ node, ...props }) => <ul className="list-disc pl-5 space-y-2 mb-6" {...props} />,
-                                li: ({ node, ...props }) => <li className="" {...props} />,
-                                strong: ({ node, ...props }) => <strong className="font-semibold" {...props} />,
-                                blockquote: ({ node, ...props }) => (
-                                    <div className="bg-neutral-900/5 p-8 border-l-2 border-neutral-900/20 italic text-neutral-700 mt-8">
-                                        {props.children}
-                                    </div>
-                                ),
-                            }}
-                        >
-                            {caseStudy.content}
-                        </ReactMarkdown>
-                    </FadeIn>
+          <hr className="rule" style={{ marginTop: 26 }} />
+
+          <div className="article-body">
+            <ReactMarkdown
+              components={{
+                h2: ({ children }) => <h3>{children}</h3>,
+                p: ({ children }) => <p>{children}</p>,
+                ul: ({ children }) => <ul>{children}</ul>,
+                li: ({ children }) => <li>{children}</li>,
+                blockquote: () => null,
+                strong: ({ children }) => <strong>{children}</strong>,
+              }}
+            >
+              {caseStudy.content}
+            </ReactMarkdown>
+
+            {caseStudy.finding && (
+              <div className="article-figure">
+                <div className="fig-label">Key Finding</div>
+                <div className="fig-quote">
+                  &ldquo;{caseStudy.finding}&rdquo;
                 </div>
-            </main>
+              </div>
+            )}
+          </div>
 
-            <FadeIn>
-                <footer className="mt-32 pt-8 border-t border-neutral-400/30 flex flex-col md:flex-row justify-between items-center text-xs text-neutral-500 gap-4 text-center">
-                    <span>© 2026 Mirza Aydemir</span>
-                    <span>{caseStudy.title} Case Study</span>
-                </footer>
-            </FadeIn>
-        </div>
-    );
+          <p className="filed">
+            Filed under{" "}
+            {caseStudy.tags.map((tag, i) => (
+              <span key={tag}>
+                <Link href="/#cases">{tag}</Link>
+                {i < caseStudy.tags.length - 1 && " · "}
+              </span>
+            ))}
+          </p>
+
+          {others.length > 0 && (
+            <>
+              <hr className="rule-hair" style={{ margin: "30px 0 22px" }} />
+              <div className="section-bar">
+                <h2 style={{ fontSize: 22 }}>More from Selected Works</h2>
+              </div>
+              <div className="case-teasers">
+                {others.map((o) => (
+                  <article key={o.slug}>
+                    <div className="ct-year">
+                      {o.year} · {o.kicker || o.tags[0]}
+                    </div>
+                    <h3>
+                      <Link href={`/cases/${o.slug}`}>{o.title}</Link>
+                    </h3>
+                    <p className="ct-dek">{o.excerpt}</p>
+                    <Link href={`/cases/${o.slug}`} className="cont">
+                      Read the full case →
+                    </Link>
+                  </article>
+                ))}
+              </div>
+            </>
+          )}
+
+          <p style={{ textAlign: "center" }}>
+            <Link href="/" className="backlink">
+              ← Return to the Front Page
+            </Link>
+          </p>
+        </article>
+      </main>
+
+      <Footer />
+    </>
+  );
 }

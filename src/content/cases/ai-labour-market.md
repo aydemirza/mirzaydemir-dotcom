@@ -1,6 +1,8 @@
 ---
 title: "AI and Labour Market Disruption"
 year: "2023"
+org: "Risk & Insurance Studies Centre"
+kicker: "Econometrics"
 tags: ["Research", "Econometrics"]
 excerpt: "Synthesized evidence across sectors (technology, manufacturing, services) on how AI adoption affects labour markets and skill demand. Built regression-based predictive modeling with secondary data to derive signals."
 finding: "Modeled strict quantitative relationships between AI adoption rates and specific skill demand shifts in the North American market."
