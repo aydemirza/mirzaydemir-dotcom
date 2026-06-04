@@ -20,6 +20,7 @@ export function EditionSwitcher() {
   }, []);
 
   function apply(id: string) {
+    // eslint-disable-next-line react-hooks/immutability
     document.documentElement.dataset.scheme = id;
     setActive(id);
     try { localStorage.setItem("bs-scheme", id); } catch {}
