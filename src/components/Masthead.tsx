@@ -8,10 +8,9 @@ import { AnimatePresence, motion } from "framer-motion";
 
 const NAV_LINKS = [
   { name: "Front Page", href: "/", id: "home" },
-  { name: "About", href: "/about", id: "about" },
   { name: "Projects", href: "/#cases", id: "cases" },
-  { name: "Curriculum", href: "/resume", id: "resume" },
-  { name: "Correspondence", href: "/contact", id: "contact" },
+  { name: "Education", href: "/education", id: "education" },
+  { name: "Contact", href: "/contact", id: "contact" },
 ];
 
 export function Masthead() {
@@ -25,9 +24,8 @@ export function Masthead() {
 
   function getActiveId() {
     if (pathname === "/") return "home";
-    if (pathname === "/about") return "about";
-    if (pathname === "/resume") return "resume";
     if (pathname === "/contact") return "contact";
+    if (pathname === "/education") return "education";
     if (pathname.startsWith("/cases")) return "cases";
     return "home";
   }

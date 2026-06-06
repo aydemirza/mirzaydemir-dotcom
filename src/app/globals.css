@@ -31,7 +31,7 @@ a { color: inherit; }
 ::selection { background: var(--accent); color: var(--paper); }
 
 /* ===== layout ===== */
-.sheet { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--pad); }
+.sheet { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--pad); overflow: hidden; }
 
 /* ===== rules ===== */
 .rule { border: 0; border-top: 1px solid var(--rule); }
@@ -143,7 +143,7 @@ a { color: inherit; }
 .case-teasers h3 a { text-decoration: none; }
 .case-teasers h3 a:hover { color: var(--accent); }
 .case-teasers .ct-dek { font-size: 15px; line-height: 1.5; color: var(--ink); text-align: justify; hyphens: auto; margin-bottom: 12px; }
-.cont { font-style: italic; color: var(--accent); font-size: 13.5px; text-decoration: none; border-bottom: 1px solid currentColor; }
+.cont { font-style: italic; color: var(--accent); font-size: 21px; text-decoration: none; border-bottom: 1px solid currentColor; }
 .cont:hover { opacity: 0.8; }
 
 /* pull quote */
@@ -153,12 +153,26 @@ a { color: inherit; }
   padding: 8px 0;
 }
 
+/* ===== CASE DOCUMENTS ===== */
+.case-documents { display: grid; grid-template-columns: 1fr; gap: 32px; margin-top: 20px; max-width: var(--maxw); margin-left: auto; margin-right: auto; }
+.case-doc { max-width: 100%; overflow: hidden; }
+.case-doc h3 { font-size: 18px; margin-bottom: 12px; }
+.pdf-embed { border-radius: 2px; overflow: hidden; max-width: 100%; }
+.excel-download { display: flex; flex-direction: column; align-items: flex-start; padding: 24px; border: 1px solid var(--hair); }
+.excel-icon { color: var(--muted); margin-bottom: 4px; }
+.excel-viewer { margin-top: 8px; max-width: 100%; overflow: hidden; }
+.excel-tabs { display: flex; gap: 0; overflow-x: auto; max-width: 100%; }
+.excel-tab { padding: 7px 14px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; background: var(--paper-2); border: 1px solid var(--hair); border-bottom: none; cursor: pointer; color: var(--muted); white-space: nowrap; border-radius: 4px 4px 0 0; margin-right: -1px; }
+.excel-tab.active { background: #fff; color: var(--ink); font-weight: 600; }
+.excel-tab:hover:not(.active) { background: var(--paper); }
+.excel-viewer-box { width: 100%; height: 600px; border: 1px solid var(--hair); background: #fff; overflow: hidden; max-width: 100%; }
+
 /* ===== ARTICLE (case detail / about) ===== */
 .article-head { padding: clamp(26px, 5vw, 48px) 0 0; text-align: center; }
 .article-head .kicker { display: block; margin-bottom: 14px; }
 .article-title {
   font-weight: 700; line-height: 1.04;
-  font-size: clamp(36px, 6vw, 68px); letter-spacing: -0.015em; max-width: 18ch; margin: 0 auto;
+  font-size: clamp(30px, 4.5vw, 50px); letter-spacing: -0.015em; max-width: 28ch; margin: 0 auto;
 }
 .byline { font-style: italic; color: var(--muted); margin-top: 18px; font-size: 15px; }
 .byline b { color: var(--ink); font-style: normal; font-weight: 600; }
@@ -171,6 +185,7 @@ a { color: inherit; }
   margin-top: clamp(28px, 4vw, 46px);
 }
 .article-body > * { break-inside: avoid-column; }
+.article-section { break-inside: avoid-column; }
 .article-body h3 {
   font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em;
   font-size: 13px; color: var(--accent); margin: 0 0 8px; padding-top: 6px;

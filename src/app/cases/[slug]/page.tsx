@@ -5,6 +5,7 @@ import { Masthead } from "@/components/Masthead";
 import { Footer } from "@/components/Footer";
 import Reveal from "@/components/FadeIn";
 import Link from "next/link";
+import ExcelPreview from "@/components/ExcelPreview";
 
 export async function generateStaticParams() {
   const cases = getAllCases();
@@ -36,29 +37,35 @@ export default async function CasePage({
               {caseStudy.kicker || caseStudy.tags[0]} · {caseStudy.year}
             </span>
             <Reveal>
-              <h1 className="article-title">{caseStudy.title}</h1>
+              <h1 className="article-title">
+                {caseStudy.org ? `${caseStudy.title} — ${caseStudy.org}` : caseStudy.title}
+              </h1>
             </Reveal>
-            <p className="byline">
-              A case from <b>{caseStudy.org || "Projects"}</b>
-            </p>
             <p className="article-dek">{caseStudy.excerpt}</p>
           </div>
 
           <hr className="rule" style={{ marginTop: 26 }} />
 
           <div className="article-body">
-            <ReactMarkdown
-              components={{
-                h2: ({ children }) => <h3>{children}</h3>,
-                p: ({ children }) => <p>{children}</p>,
-                ul: ({ children }) => <ul>{children}</ul>,
-                li: ({ children }) => <li>{children}</li>,
-                blockquote: () => null,
-                strong: ({ children }) => <strong>{children}</strong>,
-              }}
-            >
-              {caseStudy.content}
-            </ReactMarkdown>
+            {caseStudy.content
+              .split(/(?=^## )/m)
+              .filter((s) => s.trim())
+              .map((section, i) => (
+                <div key={i} className="article-section">
+                  <ReactMarkdown
+                    components={{
+                      h2: ({ children }) => <h3>{children}</h3>,
+                      p: ({ children }) => <p>{children}</p>,
+                      ul: ({ children }) => <ul>{children}</ul>,
+                      li: ({ children }) => <li>{children}</li>,
+                      blockquote: () => null,
+                      strong: ({ children }) => <strong>{children}</strong>,
+                    }}
+                  >
+                    {section}
+                  </ReactMarkdown>
+                </div>
+              ))}
 
             {caseStudy.finding && (
               <div className="article-figure">
@@ -70,15 +77,56 @@ export default async function CasePage({
             )}
           </div>
 
-          <p className="filed">
-            Filed under{" "}
-            {caseStudy.tags.map((tag, i) => (
-              <span key={tag}>
-                <Link href="/#cases">{tag}</Link>
-                {i < caseStudy.tags.length - 1 && " · "}
-              </span>
-            ))}
-          </p>
+          {caseStudy.documents && caseStudy.documents.length > 0 && (
+            <>
+              <hr className="rule-hair" style={{ margin: "30px 0 22px" }} />
+              <div className="section-bar">
+                <h2 style={{ fontSize: 22 }}>Documents</h2>
+              </div>
+              <div className="case-documents">
+                {caseStudy.documents.map((doc) =>
+                  doc.type === "pdf" ? (
+                    <div key={doc.file} className="case-doc">
+                      <h3>{doc.label}</h3>
+                      <div className="pdf-embed">
+                        <iframe
+                          src={doc.file}
+                          title={doc.label}
+                          style={{
+                            width: "100%",
+                            height: "600px",
+                            border: "1px solid var(--hair)",
+                          }}
+                        />
+                      </div>
+                      <a
+                        href={doc.file}
+                        download
+                        className="cont"
+                        style={{ display: "inline-block", marginTop: 12 }}
+                      >
+                        Download PDF ↓
+                      </a>
+                    </div>
+                  ) : (
+                    <div key={doc.file} className="case-doc">
+                      <h3>{doc.label}</h3>
+                      <ExcelPreview file={doc.file} />
+                      <a
+                        href={doc.file}
+                        download
+                        className="cont"
+                        style={{ display: "inline-block", marginTop: 12 }}
+                      >
+                        Download Excel Model ↓
+                      </a>
+                    </div>
+                  )
+                )}
+              </div>
+            </>
+          )}
+
 
           {others.length > 0 && (
             <>

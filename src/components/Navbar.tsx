@@ -6,12 +6,9 @@ import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
-    { name: "Resume", href: "/resume" },
-    { name: "Experience", href: "/#experience" },
-    { name: "Areas of Study", href: "/#areas-of-study" },
     { name: "Cases", href: "/cases" },
-    { name: "Education", href: "/#education" },
-    { name: "Correspondence", href: "/#correspondence" },
+    { name: "Education", href: "/education" },
+    { name: "Contact", href: "/contact" },
 ];
 
 export default function Navbar() {

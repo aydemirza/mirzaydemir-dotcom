@@ -4,6 +4,12 @@ import matter from "gray-matter";
 
 const casesDirectory = path.join(process.cwd(), "src/content/cases");
 
+export type CaseDocument = {
+    label: string;
+    file: string;
+    type: "pdf" | "excel";
+};
+
 export type Case = {
     slug: string;
     title: string;
@@ -13,6 +19,7 @@ export type Case = {
     finding?: string;
     org?: string;
     kicker?: string;
+    documents?: CaseDocument[];
     content: string;
 };
 
@@ -31,6 +38,7 @@ export function getCaseBySlug(slug: string): Case | null {
             finding: data.finding,
             org: data.org,
             kicker: data.kicker,
+            documents: data.documents,
             content,
         };
     } catch {
@@ -55,6 +63,7 @@ export function getAllCases(): Case[] {
             finding: data.finding,
             org: data.org,
             kicker: data.kicker,
+            documents: data.documents,
             content,
         };
     });
