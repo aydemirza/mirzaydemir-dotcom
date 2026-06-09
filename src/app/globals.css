@@ -135,7 +135,8 @@ a { color: inherit; }
 .entry ul li::before { content: "—"; position: absolute; left: 0; color: var(--accent); }
 
 /* case teasers */
-.case-teasers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+.case-teasers { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 0; row-gap: 56px; margin-top: clamp(40px, 6vw, 64px); }
+.case-teasers:first-of-type { margin-top: 0; }
 .case-teasers article { padding: 0 clamp(16px, 2vw, 26px); border-left: 1px solid var(--hair); }
 .case-teasers article:first-child { padding-left: 0; border-left: 0; }
 .case-teasers .ct-year { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
