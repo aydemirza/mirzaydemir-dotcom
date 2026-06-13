@@ -126,12 +126,16 @@
   <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
   <script>
   (function() {
+    var box = document.getElementById('excel-box');
+    box.innerHTML = '<p style="padding:20px;color:#888;font-style:italic">Loading spreadsheet&hellip;</p>';
     fetch('../documents/lightspeed-financial-model.xlsx')
-      .then(function(r){ return r.arrayBuffer(); })
+      .then(function(r){
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.arrayBuffer();
+      })
       .then(function(buf) {
         var wb = XLSX.read(buf, {type:'array'});
         var tabs = document.getElementById('excel-tabs');
-        var box = document.getElementById('excel-box');
         function show(name) {
           box.innerHTML = XLSX.utils.sheet_to_html(wb.Sheets[name], {editable:false});
           tabs.querySelectorAll('.excel-tab').forEach(function(t){
@@ -146,6 +150,9 @@
           tabs.appendChild(btn);
         });
         show(wb.SheetNames[0]);
+      })
+      .catch(function(err) {
+        box.innerHTML = '<p style="padding:20px;color:var(--accent)">Could not load spreadsheet: ' + err.message + '</p>';
       });
   })();
   </script>
