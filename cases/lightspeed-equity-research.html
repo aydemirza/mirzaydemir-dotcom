@@ -126,31 +126,27 @@
   <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
   <script>
   (function() {
-    var url = '../documents/lightspeed-financial-model.xlsx';
-    fetch(url).then(function(r){ return r.arrayBuffer(); }).then(function(buf) {
-      var wb = XLSX.read(buf, {type:'array'});
-      var tabs = document.getElementById('excel-tabs');
-      var box = document.getElementById('excel-box');
-      function show(name) {
-        var ws = wb.Sheets[name];
-        box.innerHTML = XLSX.utils.sheet_to_html(ws, {editable:false});
-        box.querySelector('table').style.cssText = 'border-collapse:collapse;font-size:12px;width:100%';
-        box.querySelectorAll('td,th').forEach(function(c){
-          c.style.cssText = 'border:1px solid #ddd;padding:3px 6px;white-space:nowrap';
+    fetch('../documents/lightspeed-financial-model.xlsx')
+      .then(function(r){ return r.arrayBuffer(); })
+      .then(function(buf) {
+        var wb = XLSX.read(buf, {type:'array'});
+        var tabs = document.getElementById('excel-tabs');
+        var box = document.getElementById('excel-box');
+        function show(name) {
+          box.innerHTML = XLSX.utils.sheet_to_html(wb.Sheets[name], {editable:false});
+          tabs.querySelectorAll('.excel-tab').forEach(function(t){
+            t.classList.toggle('active', t.textContent === name);
+          });
+        }
+        wb.SheetNames.forEach(function(name) {
+          var btn = document.createElement('button');
+          btn.className = 'excel-tab';
+          btn.textContent = name;
+          btn.onclick = function(){ show(name); };
+          tabs.appendChild(btn);
         });
-        tabs.querySelectorAll('.excel-tab').forEach(function(t){
-          t.classList.toggle('active', t.textContent === name);
-        });
-      }
-      wb.SheetNames.forEach(function(name) {
-        var btn = document.createElement('button');
-        btn.className = 'excel-tab';
-        btn.textContent = name;
-        btn.onclick = function(){ show(name); };
-        tabs.appendChild(btn);
+        show(wb.SheetNames[0]);
       });
-      show(wb.SheetNames[0]);
-    });
   })();
   </script>
 
