@@ -71,12 +71,18 @@
         <div class="case-doc">
           <h3>Equity Research Report</h3>
           <div class="pdf-embed">
-            <iframe src="../documents/lightspeed-equity-research.pdf" title="Equity Research Report" style="width:100%;height:600px;border:1px solid var(--hair)"></iframe>
+            <object data="../documents/lightspeed-equity-research.pdf" type="application/pdf" style="width:100%;height:600px;border:1px solid var(--hair)">
+              <p>Your browser cannot display this PDF. <a href="../documents/lightspeed-equity-research.pdf">Download it instead</a>.</p>
+            </object>
           </div>
           <a href="../documents/lightspeed-equity-research.pdf" download class="cont" style="display:inline-block;margin-top:12px">Download PDF &darr;</a>
         </div>
         <div class="case-doc">
           <h3>Financial Model</h3>
+          <div class="excel-viewer">
+            <div class="excel-tabs" id="excel-tabs"></div>
+            <div class="excel-viewer-box" id="excel-box"></div>
+          </div>
           <a href="../documents/lightspeed-financial-model.xlsx" download class="cont" style="display:inline-block;margin-top:12px">Download Excel Model &darr;</a>
         </div>
       </div>
@@ -118,6 +124,37 @@
       <span><a href="mailto:aydemirmirza@gmail.com" style="color:var(--accent);text-decoration:none">aydemirmirza@gmail.com</a></span>
     </div>
   </footer>
+
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+  <script>
+  (function() {
+    var url = '../documents/lightspeed-financial-model.xlsx';
+    fetch(url).then(function(r){ return r.arrayBuffer(); }).then(function(buf) {
+      var wb = XLSX.read(buf, {type:'array'});
+      var tabs = document.getElementById('excel-tabs');
+      var box = document.getElementById('excel-box');
+      function show(name) {
+        var ws = wb.Sheets[name];
+        box.innerHTML = XLSX.utils.sheet_to_html(ws, {editable:false});
+        box.querySelector('table').style.cssText = 'border-collapse:collapse;font-size:12px;width:100%';
+        box.querySelectorAll('td,th').forEach(function(c){
+          c.style.cssText = 'border:1px solid #ddd;padding:3px 6px;white-space:nowrap';
+        });
+        tabs.querySelectorAll('.excel-tab').forEach(function(t){
+          t.classList.toggle('active', t.textContent === name);
+        });
+      }
+      wb.SheetNames.forEach(function(name) {
+        var btn = document.createElement('button');
+        btn.className = 'excel-tab';
+        btn.textContent = name;
+        btn.onclick = function(){ show(name); };
+        tabs.appendChild(btn);
+      });
+      show(wb.SheetNames[0]);
+    });
+  })();
+  </script>
 
 </body>
 </html>
