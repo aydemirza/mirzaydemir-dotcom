@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heston Model Calibration with Deep Learning | The Aydemir Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <header class="sheet masthead">
+    <div class="masthead-top">
+      <div class="mt-l">Toronto, Ontario</div>
+      <div class="mt-c"></div>
+      <div class="mt-r">
+        <a href="https://www.linkedin.com/in/aydemirmirza/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:var(--muted);display:inline-flex;align-items:center;gap:5px">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+    <hr class="rule">
+    <h1 class="nameplate"><a href="../index.html">Mirza Aydemir</a></h1>
+    <div class="rule-double"></div>
+  </header>
+
+  <nav class="papernav">
+    <a href="../index.html" class="active">Projects</a>
+    <a href="../education.html">Education</a>
+    <a href="../contact.html">Contact</a>
+  </nav>
+
+  <main>
+    <article class="sheet">
+      <div class="article-head">
+        <span class="kicker">Python</span>
+        <h1 class="article-title">Heston Model Calibration with Deep Learning</h1>
+        <p class="article-dek">Traditional Heston calibration is slow and sensitive to noisy data, making it impractical for live use. We wanted to know whether deep learning could make it faster and more accurate without discarding the model's financial interpretability.</p>
+      </div>
+
+      <hr class="rule" style="margin-top:26px">
+
+      <div class="article-body">
+        <div class="article-section">
+          <h3>The Challenge</h3>
+          <p>The Heston stochastic volatility model captures real market dynamics that Black-Scholes ignores &mdash; volatility smiles, time-varying variance, and the leverage effect &mdash; but its calibration requires repeated pricing evaluations that take nearly a second per option. In a live optimization loop over thousands of contracts, that cost makes it impractical. We wanted to build a pipeline that preserved Heston's financial structure while making it fast and stable enough for real-world use.</p>
+        </div>
+        <div class="article-section">
+          <h3>Our Approach</h3>
+          <p>We built a full Python pipeline in PyTorch that layers four neural network components on top of the standard Heston framework:</p>
+          <ul>
+            <li><strong>Synthetic Data Generation:</strong> Produced 1.6 million Heston parameter-price pairs using a Latin Hypercube sampler, covering a wide range of market conditions to give the surrogate network a robust training set.</li>
+            <li><strong>Surrogate Pricing Network (10&rarr;128&rarr;64&rarr;32&rarr;1):</strong> Trained a feedforward network to approximate Heston call prices in microseconds, replacing the slow semi-closed-form solution during calibration. Achieved a validation MSE of 0.000005 and RMSE of ~$2.19 across the full parameter range.</li>
+            <li><strong>Price Approximator Network / PAN (1&rarr;8&rarr;8&rarr;1):</strong> Pulled real S&amp;P 500 call option data via yfinance, cleaned it (duplicate removal, IV floors, outlier strikes), and trained a small network to learn a smooth strike-to-price curve. This gave the optimizer a clean target surface rather than raw bid-ask noise.</li>
+            <li><strong>Initial Heston Calibration:</strong> Used scipy to minimize MSE between surrogate-implied Heston prices and PAN-smoothed market prices, recovering the five structural parameters (&kappa;, &theta;, &sigma;, &rho;, v&#8320;). The optimizer converged in 157 iterations with a final RMSE of 0.001471.</li>
+            <li><strong>Calibration Correction Network / CCN (7-sigmoid &rarr; 7-tanh &rarr; 1):</strong> Trained a final adjustment layer to learn the systematic residual errors the base Heston fit could not remove &mdash; correcting the output without replacing the interpretable parameter structure underneath.</li>
+          </ul>
+          <p>Extended the full pipeline from a single maturity to 3, 6, and 12-month horizons by feeding time-to-maturity and interpolated treasury yields into the PAN and CCN, allowing the framework to capture the full term structure of implied volatility in one calibration run.</p>
+        </div>
+        <div class="article-section">
+          <h3>The Outcome</h3>
+          <p>The pipeline outperformed standard Heston calibration at every maturity. The 6-month horizon produced the best relative fit (MRE 16.5%), and the CCN correction consistently reduced the systematic pricing errors left behind by the initial calibration. More importantly, the recovered parameters told a financially coherent story: elevated near-term uncertainty (high &kappa; and &theta; at 3 months), relative stabilization around 6 months, and renewed structural uncertainty at 12 months. Negative &rho; persisted across all maturities, consistent with the equity leverage effect. The model was picking up real market signals &mdash; not just fitting noise.</p>
+        </div>
+      </div>
+
+      <div class="article-figure">
+        <div class="fig-label">Key Finding</div>
+        <div class="fig-quote">&ldquo;Layering a surrogate pricing network, a noise-smoothing PAN, and a residual correction network on top of Heston calibration cut computation from seconds to microseconds per option &mdash; while producing parameter estimates that still told a financially coherent story across the volatility term structure.&rdquo;</div>
+      </div>
+
+      <hr class="rule-hair" style="margin:30px 0 22px">
+      <div class="section-bar">
+        <h2 style="font-size:22px">Documents</h2>
+      </div>
+      <div class="case-documents">
+        <div class="case-doc">
+          <h3>Research Report</h3>
+          <div class="pdf-embed">
+            <iframe src="../documents/heston-deep-learning.pdf" title="Research Report" style="width:100%;height:600px;border:1px solid var(--hair)"></iframe>
+          </div>
+          <a href="../documents/heston-deep-learning.pdf" download class="cont" style="display:inline-block;margin-top:12px">Download PDF &darr;</a>
+        </div>
+      </div>
+
+      <hr class="rule-hair" style="margin:30px 0 22px">
+      <div class="section-bar">
+        <h2 style="font-size:22px">More from Projects</h2>
+      </div>
+      <div class="case-teasers">
+        <article>
+          <div class="ct-year">Financial Modeling</div>
+          <h3><a href="lightspeed-equity-research.html">Lightspeed Commerce Inc. (NYSE: LSPD) Equity Research Report</a></h3>
+          <p class="ct-dek">A full bottom-up equity research report on Lightspeed Commerce Inc. (LSPD), produced for the CFA Institute Research Challenge.</p>
+          <a href="lightspeed-equity-research.html" class="cont">Read the full case &rarr;</a>
+        </article>
+        <article>
+          <div class="ct-year">Financial Modeling</div>
+          <h3><a href="lulu-equity-research.html">Lululemon Athletica Inc. (NASDAQ: LULU) Equity Research Report</a></h3>
+          <p class="ct-dek">Lululemon's stock had dropped over 40% from its peak. We wanted to know whether the selloff was justified.</p>
+          <a href="lulu-equity-research.html" class="cont">Read the full case &rarr;</a>
+        </article>
+        <article>
+          <div class="ct-year">Python</div>
+          <h3><a href="pair-trading-macd.html">MACD Pair Trading Strategy</a></h3>
+          <p class="ct-dek">Most technical trading rules are tested in isolation against a passive benchmark. We compared directional and paired structures.</p>
+          <a href="pair-trading-macd.html" class="cont">Read the full case &rarr;</a>
+        </article>
+      </div>
+
+      <p style="text-align:center">
+        <a href="../index.html" class="backlink">&larr; Return to the Front Page</a>
+      </p>
+    </article>
+  </main>
+
+  <footer class="sheet paperfoot">
+    <div class="pf-top">
+      <span>&copy; 2026 Mirza Aydemir</span>
+      <span><a href="mailto:aydemirmirza@gmail.com" style="color:var(--accent);text-decoration:none">aydemirmirza@gmail.com</a></span>
+    </div>
+  </footer>
+
+</body>
+</html>
