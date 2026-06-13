@@ -1,12 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "standalone",
-  experimental: {
-    serverActions: {
-      allowedOrigins: [],
-    },
-  },
+  output: "export",
 };
 
 export default nextConfig;

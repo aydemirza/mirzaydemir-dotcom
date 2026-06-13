@@ -1,7 +1,7 @@
 ---
 title: "Lightspeed Commerce Inc. (NYSE: LSPD) Equity Research Report"
 year: "2026"
-kicker: "Equity Research"
+kicker: "Financial Modeling"
 tags: ["Equity Research", "Valuation"]
 excerpt: "A full bottom-up equity research report on Lightspeed Commerce Inc. (LSPD), produced for the CFA Institute Research Challenge. Initiated coverage with a SELL recommendation and a 12-month target price of $11.20, built on a blended DCF and relative valuation framework. Our team placed 2nd overall as a Top 4 finalist in the CFA Institute Research Challenge."
 documents:

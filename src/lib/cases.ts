@@ -7,7 +7,7 @@ const casesDirectory = path.join(process.cwd(), "src/content/cases");
 export type CaseDocument = {
     label: string;
     file: string;
-    type: "pdf" | "excel";
+    type: "pdf" | "excel" | "notebook";
 };
 
 export type Case = {

@@ -34,7 +34,7 @@ export default async function CasePage({
         <article className="sheet">
           <div className="article-head">
             <span className="kicker">
-              {caseStudy.kicker || caseStudy.tags[0]} · {caseStudy.year}
+              {caseStudy.kicker || caseStudy.tags[0]}
             </span>
             <Reveal>
               <h1 className="article-title">
@@ -108,6 +108,30 @@ export default async function CasePage({
                         Download PDF ↓
                       </a>
                     </div>
+                  ) : doc.type === "notebook" ? (
+                    <div key={doc.file} className="case-doc">
+                      <h3>{doc.label}</h3>
+                      <div className="pdf-embed">
+                        <iframe
+                          src={doc.file}
+                          title={doc.label}
+                          style={{
+                            width: "100%",
+                            height: "700px",
+                            border: "1px solid var(--hair)",
+                            background: "#fff",
+                          }}
+                        />
+                      </div>
+                      <a
+                        href={doc.file}
+                        download
+                        className="cont"
+                        style={{ display: "inline-block", marginTop: 12 }}
+                      >
+                        Download Notebook ↓
+                      </a>
+                    </div>
                   ) : (
                     <div key={doc.file} className="case-doc">
                       <h3>{doc.label}</h3>
@@ -138,7 +162,7 @@ export default async function CasePage({
                 {others.map((o) => (
                   <article key={o.slug}>
                     <div className="ct-year">
-                      {o.year} · {o.kicker || o.tags[0]}
+                      {o.kicker || o.tags[0]}
                     </div>
                     <h3>
                       <Link href={`/cases/${o.slug}`}>{o.title}</Link>
