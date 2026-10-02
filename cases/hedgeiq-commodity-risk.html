@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-439M7W66R2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-439M7W66R2');
+  </script>
+  <title>HedgeIQ: Commodity Risk Platform | The Aydemir Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <header class="sheet masthead">
+    <div class="masthead-top">
+      <div class="mt-l">Toronto, Ontario</div>
+      <div class="mt-c"></div>
+      <div class="mt-r">
+        <a href="https://www.linkedin.com/in/aydemirmirza/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:var(--muted);display:inline-flex;align-items:center;gap:5px">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+    <hr class="rule">
+    <h1 class="nameplate"><a href="../index.html">Mirza Aydemir</a></h1>
+    <div class="rule-double"></div>
+  </header>
+
+  <nav class="papernav">
+    <a href="../index.html" class="active">Projects</a>
+    <a href="../education.html">Education</a>
+    <a href="../documents/resume.pdf" target="_blank">Resume</a>
+    <a href="../contact.html">Contact</a>
+  </nav>
+
+  <main>
+    <article class="sheet">
+      <div class="article-head">
+        <span class="kicker">Python &middot; Fintech</span>
+        <h1 class="article-title">HedgeIQ &mdash; Commodity Risk Platform for Small Food Manufacturers</h1>
+        <p class="article-dek">Large food companies regularly hedge the cost of key inputs. Small food manufacturers often cannot, leaving their margins exposed when commodity prices rise. We built a prototype fintech platform that helps smaller businesses identify these risks, measure their impact, and understand how hedging could reduce them.</p>
+      </div>
+
+      <hr class="rule" style="margin-top:26px">
+
+      <div class="article-body">
+        <div class="article-section">
+          <h3>The Challenge</h3>
+          <p>In 2022, prices for wheat, vegetable oil, and natural gas rose sharply, putting pressure on food manufacturers&rsquo; profit margins. Hedging tools already exist, but they are mainly designed for large companies with dedicated treasury teams.</p>
+          <p>For a smaller manufacturer, the main problem is not simply access to futures markets. It is understanding which costs are exposed to commodity prices, how much those price changes could affect profits, and what actions the business can take.</p>
+          <p>We set out to build a B2B tool that answers these questions using purchasing data the business already has.</p>
+        </div>
+        <div class="article-section">
+          <h3>Our Approach</h3>
+          <p>We built a working Streamlit web application in Python. To test the platform, we created a fictional mid-sized Canadian company, Maple Crest Bakery, using two years of monthly purchasing data for FY2023 and FY2024.</p>
+          <p>The platform has four main functions:</p>
+          <ul>
+            <li><strong>Exposure Mapping:</strong> Identifies which business costs are linked to traded commodities. For example, flour is linked to CME Wheat, sugar to ICE Sugar No. 11, vegetable oil to Soybean Oil, natural gas to Natural Gas futures, packaging to Aluminum, and logistics to Crude Oil. The platform then classifies each cost as hedgeable or non-hedgeable and pulls current futures prices through yfinance.</li>
+            <li><strong>Sensitivity Analysis (EBITDA at Risk):</strong> Shows how changes in commodity prices could affect the company&rsquo;s annual EBITDA. Users can move each commodity price between &minus;40% and +40% and immediately see the estimated impact by commodity and for the business overall.</li>
+            <li><strong>Historical Back-Test and Crisis Stress Test:</strong> Estimates how much the company could have saved if the recommended hedge strategy had been used in the past. It also tests the current cost structure against major commodity price shocks seen between 2020 and 2022, including Wheat +145%, Soybean Oil +204%, and Natural Gas +385%. A separate scenario applies a 20% increase across all commodity prices.</li>
+            <li><strong>Hedge Recommendations:</strong> Creates an action plan for each commodity exposure. For every commodity, the platform recommends a hedge instrument, hedge ratio, dollar amount to protect, estimated number of futures contracts, and suggested timing. For example, the model recommends hedge ratios of 75% for Wheat, 50% for Natural Gas, 50% for Soybean Oil, and 25% for Sugar. These recommendations are then organized into a quarterly hedging roadmap.</li>
+          </ul>
+          <p>The platform also explains its recommendations in plain language. For example: &ldquo;Lock in summer natural gas prices before winter demand increases.&rdquo; This makes the results easier for a non-finance business owner to understand and discuss with a broker.</p>
+        </div>
+        <div class="article-section">
+          <h3>The Outcome</h3>
+          <p>Using only the company&rsquo;s purchasing data, the platform found that about 39% of Maple Crest&rsquo;s input costs were linked to tradeable commodity markets. Flour was the largest individual exposure at nearly 18% of total input costs.</p>
+          <p>The recommended strategy hedged about 60% of total commodity exposure. When tested against FY2024 data, the strategy would have avoided approximately $69K in additional costs.</p>
+          <p>The stress test showed the larger risk. If commodity prices experienced another shock similar to the COVID-era period, Maple Crest could face about $2.35M in additional input costs, reducing gross profit by nearly 58%. The proposed hedge strategy would recover approximately $1.4M of that impact.</p>
+        </div>
+      </div>
+
+      <div class="article-figure">
+        <div class="fig-label">Key Finding</div>
+        <div class="fig-quote">&ldquo;For a small food manufacturer, the hardest part of hedging is often identifying the exposure in the first place. By connecting everyday purchasing data to commodity markets, we showed how a major price shock could eliminate more than half of gross profit &mdash; and how a disciplined partial hedge could protect much of that value.&rdquo;</div>
+      </div>
+
+      <hr class="rule-hair" style="margin:30px 0 22px">
+      <div class="section-bar">
+        <h2 style="font-size:22px">More from Projects</h2>
+      </div>
+      <div class="case-teasers">
+        <article>
+          <div class="ct-year">Python</div>
+          <h3><a href="heston-deep-learning.html">Heston Model Calibration with Deep Learning</a></h3>
+          <p class="ct-dek">Traditional Heston calibration is slow and sensitive to noisy data. We tested whether deep learning could make it faster and more accurate.</p>
+          <a href="heston-deep-learning.html" class="cont">Read the full case &rarr;</a>
+        </article>
+        <article>
+          <div class="ct-year">Financial Modeling</div>
+          <h3><a href="lightspeed-equity-research.html">Lightspeed Commerce Inc. (NYSE: LSPD) Equity Research Report</a></h3>
+          <p class="ct-dek">A full bottom-up equity research report on Lightspeed Commerce Inc. (LSPD), produced for the CFA Institute Research Challenge.</p>
+          <a href="lightspeed-equity-research.html" class="cont">Read the full case &rarr;</a>
+        </article>
+        <article>
+          <div class="ct-year">Python</div>
+          <h3><a href="pair-trading-macd.html">MACD Pair Trading Strategy</a></h3>
+          <p class="ct-dek">Most technical trading rules are tested in isolation against a passive benchmark. We compared directional and paired structures.</p>
+          <a href="pair-trading-macd.html" class="cont">Read the full case &rarr;</a>
+        </article>
+      </div>
+
+      <p style="text-align:center">
+        <a href="../index.html" class="backlink">&larr; Return to the Front Page</a>
+      </p>
+    </article>
+  </main>
+
+  <footer class="sheet paperfoot">
+    <div class="pf-top">
+      <span>&copy; 2026 Mirza Aydemir</span>
+      <span><a href="mailto:aydemirmirza@gmail.com" style="color:var(--accent);text-decoration:none">aydemirmirza@gmail.com</a></span>
+    </div>
+  </footer>
+
+</body>
+</html>
